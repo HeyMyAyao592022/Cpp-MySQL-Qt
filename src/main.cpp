@@ -17,16 +17,17 @@ int main(int, char **)
 
     auto &temp = students.back();
 
-    // update
-    // temp.name = "gogegogegoge";
-    // dao.updateStudent(temp);
-
     // delete
-    // dao.deleteStudent(temp);
+    dao.deleteStudent(temp);
 
+    // insert
     // auto newStudent = temp;
-    // newStudent.name = "big world";
+    // newStudent.name = "new student";
     // dao.insertStudent(newStudent);
+
+    // update
+    // temp.name = "new name";
+    // dao.updateStudent(temp);
 
     return 0;
 }

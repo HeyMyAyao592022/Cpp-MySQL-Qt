@@ -36,11 +36,9 @@ int StudentDAO::insertStudent(const Student &val)
     builder << "insert into student(Sname,SSex,Sage,Sdept) values('"
             << val.name << "','" << val.sex << "'," << val.age << ",'" << val.dept << "')";
     const string &str = builder.str();
-    // std::cout << "sstr: " << str << '\n';
     const char *query = str.c_str();
     if (!exec(query))
         return 0;
-    // return no
     const char query2[] = "select count(*) from student";
     return queryCount(query2) - 1;
 }
@@ -51,7 +49,6 @@ bool StudentDAO::updateStudent(const Student &val)
     builder << "update student set Sname = '" << val.name << "', Ssex = '" << val.sex << "', Sage = " << val.age
             << ", Sdept = '" << val.dept << "' where Sno = " << val.no;
     const string &str = builder.str();
-    std::cout << "sstr: " << str << '\n';
     const char *query = str.c_str();
     return exec(query);
 }
