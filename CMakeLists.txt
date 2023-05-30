@@ -16,7 +16,9 @@ endif()
 link_directories(${PROJECT_SOURCE_DIR}/lib)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
-add_executable(sql_c++ ${PROJECT_SOURCE_DIR}/src/main.cpp)
+aux_source_directory(${PROJECT_SOURCE_DIR}/src src_dirs)
+
+add_executable(sql_c++ ${src_dirs})
 
 target_link_libraries(sql_c++ ${PROJECT_SOURCE_DIR}/lib/libmysql.lib ${PROJECT_SOURCE_DIR}/lib/libmysql.dll)
 
