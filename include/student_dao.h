@@ -3,8 +3,11 @@
 
 #include "mysql.h"
 #include "student_entity.h"
+
 #include <iostream>
 #include <vector>
+#include <memory>
+#include <mutex>
 
 class StudentDAO
 {
@@ -17,9 +20,17 @@ private:
     MYSQL_RES *res; // res
     MYSQL_ROW row;  // row
 
+    static std::shared_ptr<StudentDAO> instance;
+    static std::mutex mtx;
+
 public:
     StudentDAO();
     ~StudentDAO();
+
+    static std::shared_ptr<StudentDAO> getInstance();
+
+    bool iniDAO();
+    void disConnect();
 
     bool loadStudents(std::vector<Student> &students);
     bool loadStudentsBySex(std::vector<Student> &students, const char *sex);

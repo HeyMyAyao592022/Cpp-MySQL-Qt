@@ -1,35 +1,21 @@
+#include "mainwindow.h"
 #include "student_entity.h"
 #include "student_dao.h"
 #include <iostream>
 #include <vector>
+#include <QApplication>
 
 using uint = unsigned int;
 
-int main(int, char **)
+int main(int argc, char *argv[])
 {
     StudentDAO dao;
     std::vector<Student> students;
-    dao.loadStudents(students);
-    for (auto s : students)
-    {
-        std::cout << s;
-    }
 
-    auto &temp = students.back();
-
-    // delete
-    dao.deleteStudent(temp);
-
-    // insert
-    // auto newStudent = temp;
-    // newStudent.name = "new student";
-    // dao.insertStudent(newStudent);
-
-    // update
-    // temp.name = "new name";
-    // dao.updateStudent(temp);
-
-    return 0;
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+    return a.exec();
 }
 
 void test()

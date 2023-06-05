@@ -1,9 +1,35 @@
 #include "student_dao.h"
 #include <sstream>
 
+std::shared_ptr<StudentDAO> StudentDAO::instance;
+std::mutex StudentDAO::mtx;
+
 StudentDAO::StudentDAO() : host("root"), password("520711YY"), database("experiment1")
 {
+}
+
+StudentDAO::~StudentDAO()
+{
+}
+
+std::shared_ptr<StudentDAO> StudentDAO::getInstance()
+{
+    if (instance != nullptr)
+        return instance;
+
+    if (instance == nullptr)
+    {
+        std::unique_lock<std::mutex> lock(mtx);
+        instance = std::make_shared<StudentDAO>();
+        printf("construct..\n");
+    }
+}
+
+bool StudentDAO::iniDAO()
+{
+    printf("in ini\n");
     mysql_init(&mysql);
+    printf("in ini\n");
     if (!mysql_real_connect(&mysql, "localhost", host, password, database, 3306, nullptr, 0))
     {
         std::cout << "connect failed" << mysql_errno(&mysql) << std::endl;
@@ -12,7 +38,7 @@ StudentDAO::StudentDAO() : host("root"), password("520711YY"), database("experim
         std::cout << "connect succeed" << std::endl;
 }
 
-StudentDAO::~StudentDAO()
+void StudentDAO::disConnect()
 {
     mysql_close(&mysql);
     printf("disconnect\n");
