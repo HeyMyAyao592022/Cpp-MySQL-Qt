@@ -28,26 +28,14 @@ void MainWindow::updateStudent()
 
 void MainWindow::queryStudent()
 {
-    auto model = new QStandardItemModel(this);
     QtConcurrent::run([=]
                       { 
-                        std::vector<Student> students;
-                        if(!dao.loadStudents(students)){
+                        if(!dao.loadStudents(temp)){
                             printf("load failed\n");
                             return; 
                         }
                         printf("load succeed\n");
-                        int size = students.size();
-                        for (int i = 0; i < size; i++)
-                        {
-                            const auto& s = students[i];
-                            model->setItem(i + 1,0,new QStandardItem(QString::number(s.no)));
-                            model->setItem(i + 1,1,new QStandardItem(s.name.c_str()));
-                            model->setItem(i + 1,2,new QStandardItem(s.sex.c_str()));
-                            model->setItem(i + 1,3,new QStandardItem(QString::number(s.age)));
-                            model->setItem(i + 1,4,new QStandardItem(s.dept.c_str()));
-                        }
-                        ui->query_result_table->setModel(model); });
+                        emit querySignal(); });
 }
 
 void MainWindow::iniSys()
@@ -65,4 +53,18 @@ void MainWindow::iniSys()
     }
     // connect
     connect(ui->query_btn, &QPushButton::clicked, this, &MainWindow::queryStudent);
+    connect(this, &MainWindow::querySignal, this, [=]()
+            {
+            auto model = new QStandardItemModel(this);
+            int size = this->temp.size();
+            for (int i = 0; i < size; i++)
+            {
+                const auto &s = temp[i];
+                model->setItem(i, 0, new QStandardItem(QString::number(s.no)));
+                model->setItem(i, 1, new QStandardItem(s.name.c_str()));
+                model->setItem(i, 2, new QStandardItem(s.sex.c_str()));
+                model->setItem(i, 3, new QStandardItem(QString::number(s.age)));
+                model->setItem(i, 4, new QStandardItem(s.dept.c_str()));
+            }
+            ui->query_result_table->setModel(model); });
 }

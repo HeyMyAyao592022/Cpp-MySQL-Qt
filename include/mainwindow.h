@@ -5,6 +5,7 @@
 #include "student_entity.h"
 
 #include <vector>
+#include <memory>
 
 #include <QMainWindow>
 #include <QtConcurrent>
@@ -15,6 +16,7 @@
 #include <QWaitCondition>
 #include <QString>
 #include <QPushButton>
+#include <QSharedPointer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -30,6 +32,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+signals:
+    void querySignal();
 
 private:
     /**
@@ -46,6 +50,8 @@ private:
 private:
     Ui::MainWindow *ui;
     StudentDAO dao;
+
+    std::vector<Student> temp;
 };
 
 #endif // MAINWINDOW_H
