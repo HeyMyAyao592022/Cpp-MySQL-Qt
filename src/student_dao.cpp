@@ -124,11 +124,17 @@ int StudentDAO::queryCount(const char *query_sql)
 
 bool StudentDAO::exec(const char *query)
 {
-    if (mysql_real_query(&(this->mysql), query, (unsigned int)strlen(query)))
+    mtx.lock();
+    int result = mysql_real_query(&(this->mysql), query, (unsigned int)strlen(query));
+    mtx.unlock();
+
+    if (result)
     {
         std::cout << "exec failed: " << mysql_errno(&mysql) << '\n'
                   << "sql: " << query << std::endl;
         return false;
     }
+    std::cout
+        << "sql: " << query << std::endl;
     return true;
 }

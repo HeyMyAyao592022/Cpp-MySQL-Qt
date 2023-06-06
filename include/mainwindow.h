@@ -18,6 +18,7 @@
 #include <QPushButton>
 #include <QSharedPointer>
 #include <QFutureWatcher>
+#include <QStringList>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -35,6 +36,8 @@ public:
     ~MainWindow();
 signals:
     void querySignal();
+    void deleteSignal(int row);
+    void updateSignal(int row);
 
 private:
     /**
@@ -42,8 +45,8 @@ private:
      *
      */
     void insertStudent();
-    void deleteStudent();
-    void updateStudent();
+    void deleteStudent(int row);
+    void updateStudent(int row);
     void queryStudent();
 
     void iniSys();
@@ -52,7 +55,10 @@ private:
     Ui::MainWindow *ui;
     StudentDAO dao;
 
-    std::vector<Student> temp;
+    std::vector<Student> queryResult;
+
+    QStandardItemModel queryModel;
+    QStandardItemModel editModel;
 };
 
 #endif // MAINWINDOW_H
