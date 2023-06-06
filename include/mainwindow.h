@@ -17,6 +17,7 @@
 #include <QString>
 #include <QPushButton>
 #include <QSharedPointer>
+#include <QFutureWatcher>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
