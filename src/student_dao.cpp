@@ -134,7 +134,5 @@ bool StudentDAO::exec(const char *query)
                   << "sql: " << query << std::endl;
         return false;
     }
-    std::cout
-        << "sql: " << query << std::endl;
     return true;
 }
